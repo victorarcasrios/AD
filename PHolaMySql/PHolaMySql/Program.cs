@@ -53,14 +53,23 @@ namespace PHolaMySql
 			con.Close ();
 		}
 
-		private static void showRemoveRegistro(){
+		// Gestiona la llamada a removeRegistro
+		private static void showRemoveRegistro(MySqlConnection con){
 			Console.WriteLine ("Buscar registro por id(1) o por nombre(2)?");
-			int exito = removeRegistro(Convert.ToInt32(Console.ReadLine()));
+			int opcion = Console.ReadLine ();
+			string campoBusqueda = (opcion == 1) ? "id" : "nombre";
+			Console.WriteLine ("Introduce el {0} a buscar:\t", campoBusqueda);
+			string valor = Console.ReadLine (); 
+
+			int exito = removeRegistro(con, opcion, valor);
 			if (exito)
 				Console.WriteLine ("Exito al eliminar registro");
 			else
 				Console.WriteLine ("ERROR: El registro no pudo ser eliminado. Puede que no exista");
 		}
+
+		// Si encuentra el registro lo elimina y devuelve 1, de lo contrario devuelve 0
+		private static int removeRegistro (MySqlConnection con, int opcion, string valor);
 
 		// Muestra el menu
 		private static void showMenu(){
