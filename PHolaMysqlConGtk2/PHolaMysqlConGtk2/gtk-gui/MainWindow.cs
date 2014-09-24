@@ -6,8 +6,12 @@ public partial class MainWindow
 	private global::Gtk.Action VerAction;
 	private global::Gtk.Action ListarTablaAction;
 	private global::Gtk.Action BuscarRegistroAction;
+	private global::Gtk.Action InsertarAction;
+	private global::Gtk.Action NuevoRegistroAction;
 	private global::Gtk.VBox vbox1;
 	private global::Gtk.MenuBar menubar1;
+	private global::Gtk.ScrolledWindow GtkScrolledWindow;
+	private global::Gtk.TextView body;
 
 	protected virtual void Build ()
 	{
@@ -15,19 +19,21 @@ public partial class MainWindow
 		// Widget MainWindow
 		this.UIManager = new global::Gtk.UIManager ();
 		global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup ("Default");
-		// Menu ver
 		this.VerAction = new global::Gtk.Action ("VerAction", global::Mono.Unix.Catalog.GetString ("Ver"), null, null);
 		this.VerAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Ver");
 		w1.Add (this.VerAction, null);
-		// Listar tabla
 		this.ListarTablaAction = new global::Gtk.Action ("ListarTablaAction", global::Mono.Unix.Catalog.GetString ("Listar tabla"), null, null);
 		this.ListarTablaAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Listar tabla");
 		w1.Add (this.ListarTablaAction, null);
-		// Buscar registro
 		this.BuscarRegistroAction = new global::Gtk.Action ("BuscarRegistroAction", global::Mono.Unix.Catalog.GetString ("Buscar registro"), null, null);
 		this.BuscarRegistroAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Buscar registro");
 		w1.Add (this.BuscarRegistroAction, null);
-
+		this.InsertarAction = new global::Gtk.Action ("InsertarAction", global::Mono.Unix.Catalog.GetString ("Insertar"), null, null);
+		this.InsertarAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Insertar");
+		w1.Add (this.InsertarAction, null);
+		this.NuevoRegistroAction = new global::Gtk.Action ("NuevoRegistroAction", global::Mono.Unix.Catalog.GetString ("Nuevo registro"), null, null);
+		this.NuevoRegistroAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Nuevo registro");
+		w1.Add (this.NuevoRegistroAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -38,7 +44,7 @@ public partial class MainWindow
 		this.vbox1.Name = "vbox1";
 		this.vbox1.Spacing = 6;
 		// Container child vbox1.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='VerAction' action='VerAction'><menu name='ListarTablaAction' action='ListarTablaAction'/><menuitem name='BuscarRegistroAction' action='BuscarRegistroAction'/></menu></menubar></ui>");
+		this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='VerAction' action='VerAction'><menuitem name='ListarTablaAction' action='ListarTablaAction'/><menuitem name='BuscarRegistroAction' action='BuscarRegistroAction'/></menu><menu name='InsertarAction' action='InsertarAction'><menuitem name='NuevoRegistroAction' action='NuevoRegistroAction'/></menu></menubar></ui>");
 		this.menubar1 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar1")));
 		this.menubar1.Name = "menubar1";
 		this.vbox1.Add (this.menubar1);
@@ -46,13 +52,26 @@ public partial class MainWindow
 		w2.Position = 0;
 		w2.Expand = false;
 		w2.Fill = false;
+		// Container child vbox1.Gtk.Box+BoxChild
+		this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
+		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
+		this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
+		// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
+		this.body = new global::Gtk.TextView ();
+		this.body.CanFocus = true;
+		this.body.Name = "body";
+		this.GtkScrolledWindow.Add (this.body);
+		this.vbox1.Add (this.GtkScrolledWindow);
+		global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.GtkScrolledWindow]));
+		w4.Position = 1;
 		this.Add (this.vbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
-		this.DefaultWidth = 400;
+		this.DefaultWidth = 478;
 		this.DefaultHeight = 300;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+		this.ListarTablaAction.Activated += new global::System.EventHandler (this.OnListarTablaActionActivated);
 	}
 }
