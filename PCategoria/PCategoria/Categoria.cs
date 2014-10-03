@@ -39,6 +39,14 @@ namespace PCategoria
 			return insert.ExecuteNonQuery ();
 		}
 
+		public static void removeRegistro (int id){
+			MySqlCommand delete = singleton().CreateCommand ();
+			delete.CommandText = "DELETE FROM " +TABLE+ " WHERE id = @id";
+			delete.Parameters.Add ("@id", MySqlDbType.Int32);
+			delete.Parameters ["@id"].Value = id;
+			delete.ExecuteNonQuery ();
+		}
+
 		// Devuelve una conexion a la DB (si ya hay una instancia devuelve esa, y si no, la crea)
 		private static MySqlConnection singleton(){
 			if (con != null)
