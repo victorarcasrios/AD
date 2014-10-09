@@ -89,7 +89,14 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnEditActionActivated (object sender, EventArgs e)
 	{
-		EditWindow editionWindow = new EditWindow ();
+		TreeIter treeIter;
+		treeView.Selection.GetSelected (out treeIter);
+		object id = listStore.GetValue (treeIter, 0);
+
+		EditWindow editionWindow = new EditWindow (Convert.ToInt32(id));
+		editionWindow.DeleteEvent += delegate {
+			printCategoria();
+		};
 	}
 
 	// Imprime todos los registros de la tabla categoria

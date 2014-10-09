@@ -7,7 +7,7 @@ namespace PCategoria
 	public class Categoria
 	{
 		// CONSTANTES de configuracion de la conexion a la DB
-		private const string DB_PASSWORD = "sistemas";
+		private const string DB_PASSWORD = "root";
 		private const string DB_NAME = "dbprueba";
 		private const string TABLE = "categoria";
 		// Conexion con la DB
@@ -45,6 +45,24 @@ namespace PCategoria
 			delete.Parameters.Add ("@id", MySqlDbType.Int32);
 			delete.Parameters ["@id"].Value = id;
 			delete.ExecuteNonQuery ();
+		}
+
+		public static String getNombre(int id){
+			MySqlCommand select = singleton ().CreateCommand ();
+			select.CommandText = "SELECT nombre FROM " + TABLE + " WHERE id = @id";
+			select.Parameters.Add ("@id", MySqlDbType.Int32);
+			select.Parameters ["@id"].Value = id;
+			return (string)select.ExecuteScalar ();
+		}
+
+		public static int updateName(int id, string name){
+			MySqlCommand update = singleton ().CreateCommand ();
+			update.CommandText = "UPDATE " + TABLE + " SET nombre = @name WHERE id = @id";
+			update.Parameters.Add ("@name", MySqlDbType.String);
+			update.Parameters.Add ("@id", MySqlDbType.Int32);
+			update.Parameters ["@name"].Value = name;
+			update.Parameters ["@id"].Value = id;
+			return update.ExecuteNonQuery ();
 		}
 
 		// Devuelve una conexion a la DB (si ya hay una instancia devuelve esa, y si no, la crea)
