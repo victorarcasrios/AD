@@ -19,10 +19,6 @@ namespace PNotebook
 			Visible = true;
 		}
 
-		private void selectionChanged(object sender, EventArgs e){
-			bool hasSelected = Selection.CountSelectedRows () > 0;
-		}
-
 		private void refreshContent(){
 			((ListStore)Model).Clear ();
 
