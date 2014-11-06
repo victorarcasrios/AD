@@ -19,6 +19,14 @@ namespace PNotebook
 			Visible = true;
 		}
 
+		public void createRecord(){
+			NewCategoryWindow window = new NewCategoryWindow ();
+			window.ShowAll ();
+			window.Destroyed += delegate {
+				refreshContent ();
+			};
+		}
+
 		public void refreshContent(){
 			((ListStore)Model).Clear ();
 

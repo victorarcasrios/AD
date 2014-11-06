@@ -8,11 +8,9 @@ public partial class MainWindow: Gtk.Window
 
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
-		addAction.Visible = false;
-		refreshAction.Visible = false;
-		editAction.Visible = false;
-		deleteAction.Visible = false;
 		Build ();
+
+		addAction.Sensitive = refreshAction.Sensitive = editAction.Sensitive = deleteAction.Sensitive = false;
 
 		CategoriasAction.Activated += delegate {
 			CategoriaView view = new CategoriaView();
@@ -20,7 +18,7 @@ public partial class MainWindow: Gtk.Window
 
 			view.Selection.Changed += delegate {
 				bool hasSelected = view.Selection.CountSelectedRows() > 0;
-				editAction.Visible = deleteAction.Visible = hasSelected;
+				editAction.Sensitive = deleteAction.Sensitive = hasSelected;
 			};
 		};
 
@@ -30,9 +28,25 @@ public partial class MainWindow: Gtk.Window
 
 			view.Selection.Changed += delegate {
 				bool hasSelected = view.Selection.CountSelectedRows() > 0;
-				editAction.Visible = hasSelected;
-				deleteAction.Visible = hasSelected;
+				editAction.Sensitive = deleteAction.Sensitive = hasSelected;
 			};
+		};
+
+		myNotebook.PageAdded += togglePageButtons;
+		myNotebook.PageRemoved += delegate {
+			if(myNotebook.NPages > 0){
+				bool hasSelected = ((TreeView)myNotebook.CurrentPageWidget).Selection.CountSelectedRows () > 0;
+				editAction.Sensitive = deleteAction.Sensitive = hasSelected;
+			}
+			togglePageButtons ();
+		};
+
+		addAction.Activated += delegate {
+			TreeView view = (TreeView)myNotebook.CurrentPageWidget;
+			if( view.GetType() == typeof(CategoriaView))
+				((CategoriaView)view).createRecord();
+			else if(view.GetType() == typeof(ArticuloView))
+				((ArticuloView)view).createRecord();
 		};
 
 		refreshAction.Activated += delegate {
@@ -50,6 +64,15 @@ public partial class MainWindow: Gtk.Window
 			else if(view.GetType() == typeof(ArticuloView))
 				((ArticuloView)view).deleteRecord();
 		};
+	}
+
+	private void togglePageButtons(object sender, EventArgs a){
+		togglePageButtons ();
+	}
+
+	private void togglePageButtons(){
+		bool hasPage = myNotebook.NPages > 0;
+		addAction.Sensitive = refreshAction.Sensitive = hasPage;
 	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)

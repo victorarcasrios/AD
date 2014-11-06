@@ -79,6 +79,10 @@
     <Compile Include="Articulos.cs" />
     <Compile Include="CategoriaView.cs" />
     <Compile Include="Categorias.cs" />
+    <Compile Include="NewCategoryWindow.cs" />
+    <Compile Include="gtk-gui\PNotebook.NewCategoryWindow.cs" />
+    <Compile Include="NewArticleWindow.cs" />
+    <Compile Include="gtk-gui\PNotebook.NewArticleWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

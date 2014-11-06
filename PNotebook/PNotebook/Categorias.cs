@@ -23,6 +23,24 @@ namespace PNotebook
 			Singleton.Instance.Close ();
 			return list;
 		}
+
+		public static bool nameExists(string name){
+			MySqlCommand select = Singleton.Instance.CreateCommand ();
+			select.CommandText = String.Format ("SELECT id FROM {0} WHERE nombre = @name", TABLE);
+			select.Parameters.Add ("@name", MySqlDbType.VarString);
+			select.Parameters["@name"].Value = name;
+			bool exists = select.ExecuteScalar() != null;
+			Singleton.Instance.Close ();
+			return exists;
+		}
+
+		public static void insert(string name){
+			MySqlCommand insert = Singleton.Instance.CreateCommand ();
+			insert.CommandText = String.Format ("INSERT INTO {0} VALUES(NULL, @name)", TABLE);
+			insert.Parameters.Add ("@name", MySqlDbType.VarString);
+			insert.Parameters ["@name"].Value = name;
+			insert.ExecuteNonQuery ();
+		}
 	}
 }
 
