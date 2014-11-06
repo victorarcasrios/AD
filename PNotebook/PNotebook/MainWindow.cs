@@ -8,25 +8,47 @@ public partial class MainWindow: Gtk.Window
 
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
+		addAction.Visible = false;
+		refreshAction.Visible = false;
+		editAction.Visible = false;
+		deleteAction.Visible = false;
 		Build ();
 
 		CategoriasAction.Activated += delegate {
 			CategoriaView view = new CategoriaView();
 			newPage ("Categorías", view);
+
+			view.Selection.Changed += delegate {
+				bool hasSelected = view.Selection.CountSelectedRows() > 0;
+				editAction.Visible = deleteAction.Visible = hasSelected;
+			};
 		};
 
 		ArtculosAction.Activated += delegate {
 			ArticuloView view = new ArticuloView();
 			newPage("Artículos", view);
+
+			view.Selection.Changed += delegate {
+				bool hasSelected = view.Selection.CountSelectedRows() > 0;
+				editAction.Visible = hasSelected;
+				deleteAction.Visible = hasSelected;
+			};
 		};
 
 		refreshAction.Activated += delegate {
 			TreeView view = (TreeView)myNotebook.CurrentPageWidget;
-			Console.WriteLine(view.GetType());
 			if( view.GetType() == typeof(CategoriaView))
 				((CategoriaView)view).refreshContent();
 			else if(view.GetType() == typeof(ArticuloView))
 				((ArticuloView)view).refreshContent();
+		};
+
+		deleteAction.Activated += delegate {
+			TreeView view = (TreeView)myNotebook.CurrentPageWidget;
+			if( view.GetType() == typeof(CategoriaView))
+				((CategoriaView)view).deleteRecord();
+			else if(view.GetType() == typeof(ArticuloView))
+				((ArticuloView)view).deleteRecord();
 		};
 	}
 

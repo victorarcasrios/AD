@@ -28,5 +28,10 @@ namespace PNotebook
 				((ListStore)Model).AppendValues (Convert.ToInt64 (categoria [0]), categoria [1]);
 			}
 		}
+
+
+		public void deleteRecord(){
+		}
+
 	}
 }
