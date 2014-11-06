@@ -19,7 +19,7 @@ namespace PNotebook
 			Visible = true;
 		}
 
-		private void refreshContent(){
+		public void refreshContent(){
 			((ListStore)Model).Clear ();
 
 			List<object[]> categorias = Categorias.listAll ();

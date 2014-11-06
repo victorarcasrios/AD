@@ -6,17 +6,27 @@ using PNotebook;
 public partial class MainWindow: Gtk.Window
 {
 
-
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
 
 		CategoriasAction.Activated += delegate {
-			newPage ("Categorías", new CategoriaView());
+			CategoriaView view = new CategoriaView();
+			newPage ("Categorías", view);
 		};
 
 		ArtculosAction.Activated += delegate {
-			newPage("Artículos", new ArticuloView());	
+			ArticuloView view = new ArticuloView();
+			newPage("Artículos", view);
+		};
+
+		refreshAction.Activated += delegate {
+			TreeView view = (TreeView)myNotebook.CurrentPageWidget;
+			Console.WriteLine(view.GetType());
+			if( view.GetType() == typeof(CategoriaView))
+				((CategoriaView)view).refreshContent();
+			else if(view.GetType() == typeof(ArticuloView))
+				((ArticuloView)view).refreshContent();
 		};
 	}
 
