@@ -34,10 +34,12 @@ public partial class MainWindow: Gtk.Window
 
 		myNotebook.PageAdded += togglePageButtons;
 		myNotebook.PageRemoved += delegate {
+			bool hasSelected = false;
+
 			if(myNotebook.NPages > 0){
-				bool hasSelected = ((TreeView)myNotebook.CurrentPageWidget).Selection.CountSelectedRows () > 0;
-				editAction.Sensitive = deleteAction.Sensitive = hasSelected;
+				hasSelected = ((TreeView)myNotebook.CurrentPageWidget).Selection.CountSelectedRows () > 0;
 			}
+			editAction.Sensitive = deleteAction.Sensitive = hasSelected;
 			togglePageButtons ();
 		};
 

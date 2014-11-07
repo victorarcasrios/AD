@@ -6,7 +6,7 @@ namespace PNotebook
 {
 	public class Singleton
 	{
-		private const string DB_PASSWORD = "root";
+		private const string DB_PASSWORD = "sistemas";
 		private const string DB_NAME = "dbprueba";
 		private static MySqlConnection instance = null;
 
